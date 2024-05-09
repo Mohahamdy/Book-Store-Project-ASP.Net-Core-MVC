@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+@model List<KeyValuePair<int, string>>
+<form asp-action="AddAdmin" asp-controller="Dashboard" method="post">
+    <h2>Add Admin</h2>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Users</label>
+        <select class="form-control" name="UserID" onchange="AddOrRemoveAdmin()">
+            <option value=0 selected hidden disabled>-----Select User------</option>
+            @foreach (var item in Model)
+            {
+                <option value="@item.Key">@item.Value</option>
+            
+            }
+        </select>
+    </div>
+
+  
+    <button id="Add" name="isAdmin" value=false disabled class="btn mt-3 btn-primary ">Add Admin</button>
+    <button id="Remove" name="isAdmin" value=true disabled class="btn mt-3 btn-danger ">Remove Admin</button>
+    @* <button type="submit" id="Add" disabled class="btn mt-3 btn-primary">Add Admin</button>
+    <button type="submit" id="Remove" disabled class="btn mt-3 btn-primary">Remove Admin</button> *@
+</form>
+
+﻿<script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
+<script>
+    function AddOrRemoveAdmin() {
+        var UserID = $('[name="UserID"]').val();
+        $.ajax(
+            {
+                type: 'Post',
+                dataType: 'JSON',
+                url: '/Dashboard/CheckAdminRole?UserID=' + UserID,
+                success:
+                    function (response) {
+                        console.log(response.isAdmin);
+                        if (response.isAdmin) {
+
+                            // $('#Remove').click();
+                            $("#Remove").prop('disabled', false);
+                            // $("#Remove").removeClass("disabled");
+                            // $('#Add').prop('disabled', false);
+                            // $('#Remove').prop('disabled', true);
+                        } else {
+                            // $('#Add').click();
+                            $("#Add").prop('disabled', false);
+                            // $("#Add").removeClass("disabled");
+
+                            // $('#Add').prop('disabled', true);
+                            // $('#Remove').prop('disabled', false);
+                        }
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response);
+                    }
+            });
+    }
+    // $(document).ready(function () {
+        
+    //     $("#Add").on("click", function (event) {
+    //         event.preventDefault(); // Prevent default action
+    //     }); $("#Remove").on("click", function (event) {
+    //         event.preventDefault(); // Prevent default action
+    //     });
+       
+    // });
+</script>
+
+@* <div class="form-group">
+        <label for="exampleInputEmail1">Roles</label>
+        <select class="form-control" name="UserID" >
+
+        </select>
+    </div> *@
+
+           @*  function AddOrRemoveAdmin() {
+          var roleId = $('[name="roleID"]').val();
+        console.log(roleId);
+        $.ajax(
+            {
+                type: 'POST',
+                dataType: 'JSON',
+                url: '/Dashboard/getUsers?roleId=' + roleId,
+                success:
+                    function (response) {
+                        $('select[name="UserID"]').empty();
+                        // Generate HTML table.
+                        console.log(response)
+                        for (let item of response) {
+                            $('select[name="UserID"]').append($('<option>', {
+                                value: item.key,
+                                text: item.value
+                            }));
+                        }
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response);
+                    }
+            });
+    } *@

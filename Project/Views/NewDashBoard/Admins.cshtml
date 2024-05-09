@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Admins";
+    Layout = "~/Views/Shared/_NewDashLayout.cshtml";
+}
+<link href="~/css/newdash/tables/Tables.css" rel="stylesheet" />
+
+
+
+<title>Admins</title>
+
+
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Admins</li>
+  
+     
+</ol>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Admins
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    @* <th>Edit</th> *@
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var admin in Model)
+                {
+                    <tr>
+                        <td>@admin.Id</td>
+                        <td>@admin.FirstName @admin.LastName</td>
+
+                        <td>@admin.Email</td>
+                  @*       <td>
+                            <a href="@Url.Action("EditAdmin", "Admin", new { id = admin.Id })" class="btn btn-primary">Update</a>
+
+                            <a href="@Url.Action("DeleteAdmin", "Admin", new { id = admin.Id })" class="btn btn-danger">Delete</a>
+                        </td> *@
+
+
+                    </tr>
+                }
+              @*   <tr colspan="4">
+                    <td>
+                        <a href="@Url.Action("ModifyAdmin", "NewDashboard")" class="btn btn-danger">Modify Admins</a>
+                    </td>
+                </tr> *@
+            </tbody>
+        </table>
+        <a href="@Url.Action("ModifyAdmin", "NewDashboard")" class="btn btn-danger">Modify Admins</a>
+
+    </div>
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="~/js/newdash/tables/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="~/js/newdash/tables/datatables-simple-demo.js"></script>

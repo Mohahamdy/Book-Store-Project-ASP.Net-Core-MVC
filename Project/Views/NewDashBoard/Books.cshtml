@@ -1,0 +1,203 @@
+﻿@model List<BookDetailsVM>
+@{
+    ViewData["Title"] = "Books";
+    Layout = "~/Views/Shared/_NewDashLayout.cshtml";
+}
+<style>
+    .content nav .datatable-pagination {
+
+        background-color:white;
+    }
+</style>
+
+
+<title>Books</title>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Books</li>
+</ol>
+<a class="btn btn-primary addBook" href="/newDashboard/AddNewBook"><i class="fa-solid fa-book-medical"></i> Add New Book</a>
+<br />
+<div class="card mt-2 mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Books
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th></th>
+                     
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Rate</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Quantity</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Added by</th>
+                    <th>IsAvailable</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Rate</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Quantity</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Added by</th>
+                    <th>IsAvailable</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <button type="button" onclick="BookInfo(@item.ID)" data-bs-toggle="modal" data-bs-target="#info" class="btn btn-square btn-outline-primary" style="margin: 5px 0;"><i class="fa-solid fa-info" title="Book Details"></i></button>
+
+                            @* <i class="fa-solid fa-info" onclick="BookInfo(@item.ID)" title="Book Details" style="color:#009CFF" data-bs-toggle="modal" data-bs-target="#info"></i> *@
+                        </td>
+                       
+                        <td><img width="50" height="50" src="~/images/shop/@item.Image"></td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.Rate</td>
+                        <td>@item.Price</td>
+                        @if (item.Discount == null)
+                        {
+                            <td>--</td>
+                        }
+                        else
+                        {
+                            <td>@item.Discount.Percantage %</td>
+                        }
+                        @if (item.Quantity == 0)
+                        {
+                            <td>0 (out of stock)</td>
+                        }
+                        else
+                        {
+                            <td>@item.Quantity</td>
+                        }
+                        <td>@item.Author.Name</td>
+                        <td>@item.Category.Name</td>
+                        <td>@item.Admin.FirstName @item.Admin.LastName</td>
+                        <td><span id="isAvail_@item.ID">@item.IsAvailable</span></td>
+                        <td>
+                            <i class="fa-solid fa-pen-to-square" title="Edit" onclick="redirectToEditBook(@item.ID)" style="color:#009CFF"></i>
+                            <i class="fa-regular fa-comment-dots" onclick="redirectToBookComments(@item.ID)" title="Show Comments" style="color:darkorange"></i>   @*handle in modals.js*@
+                            @if (item.IsAvailable == true)
+                            {
+                                <i class="fa-solid fa-trash" id="delete_@item.ID" title="Delete" onclick="redirectToDeleteBook(@item.ID)" style="color:red"></i>
+                                <i class="fa-solid fa-plus" hidden id="add_@item.ID" title="Add" onclick="redirectToAddBook(@item.ID)" style="color:green;margin-right: 4px;"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-trash" hidden id="delete_@item.ID" title="Delete" onclick="redirectToDeleteBook(@item.ID)" style="color:red"></i>
+                                <i class="fa-solid fa-plus" id="add_@item.ID" title="Add" onclick="redirectToAddBook(@item.ID)" style="color:green"></i>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@* Book Details/info icon *@
+<div class="modal fade" id="info" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Book Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bookInfo">
+
+                <section class="product">
+                    <div class="product__photo">
+                        <div class="photo-container">
+                            <div class="photo-main">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product__info">
+                        <div class="title">
+                            <h1 id="bookTitle"> </h1>
+                            <span>Book ID:</span> <span id="bookId"> </span>      @* handle all in modals.js file *@
+                        </div>
+
+                        <div class="description">
+                            <h3>Rate</h3>
+                            <span id="bookRate"> </span> /10
+                        </div>
+                        <div class="description">
+                            <h3>Price</h3>
+                            <span id="bookPrice"> </span> $
+                        </div>
+                        <div class="description">
+                            <h3>Discount</h3>
+                            <span id="bookDiscount"> </span> %
+                        </div>
+                        <div class="description">
+                            <h3>Quantity</h3>
+                            <span id="bookQuant"> </span>
+                        </div>
+                        <div class="description">
+                            <h3>Category</h3>
+                            <span id="bookCategory"> </span>
+                        </div>
+                        <div class="description">
+                            <h3>Author</h3>
+                            <span id="bookAuthor"> </span>
+                        </div>
+
+                        <div class="description">
+                            <h3>Added By / Admin Name</h3>
+                            <span id="bookAdmin"> </span>
+                        </div>
+                        <div class="description">
+                            <h3>IsAvailable</h3>
+                            <span id="bookIsAvailable"> </span>
+                        </div>
+                        <div class="description">
+                            <h3>Description</h3>
+                            <span id="bookDesc"> </span>
+                        </div>
+
+
+                    </div>
+                </section>
+               @*  <div id="btns">
+                    <button class="buy--btn btnEditBook" style="background-color:#009CFF"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                    <button class="buy--btn btnShowComments" style="background-color:darkorange"><i class="fa-regular fa-comment-dots"></i> Show Comments</button> 
+                    <button class="buy--btn btnDeleteBook" hidden><i class="fa-solid fa-trash"></i> Delete</button>  
+                    <button class="buy--btn btnAddBook" hidden style="background-color:green"><i class="fa-solid fa-plus"></i> Add</button> 
+                </div> 
+                *@
+            </div>
+       @*      <div class="modal-footer">
+                <button type="submit" class="btn btn-default" ta-dismiss="modal">close</button> 
+            </div> *@
+        </div>
+    </div>
+</div>
+
+

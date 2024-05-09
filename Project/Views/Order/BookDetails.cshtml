@@ -1,0 +1,100 @@
+﻿@model Project.ViewModels.BookDetailsVM
+
+<main class="main">
+    <div class="page-content" style="margin-top:60px;">
+        <div class="container">
+            <form asp-action="AddToCart" asp-controller="Order" method="post">
+                <input type="hidden" asp-for="ID" />
+                <!-- Add other hidden fields for other properties you want to pass to the ConfirmOrder action -->
+
+                <div class="product-details-top">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-gallery product-gallery-vertical">
+                                <div class="row">
+                                    <figure class="product-main-image">
+                                        <img id="product-zoom" src="~/assets/images/books/@Model.Image" style="object-fit: cover;max-height: 400px;min-height: 400px;" data-zoom-image="~/assets/images/books/@Model.Image" alt="product image">
+                                    </figure><!-- End .product-main-image -->
+                                </div><!-- End .row -->
+                            </div><!-- End .product-gallery -->
+                        </div><!-- End .col-md-6 -->
+
+                        <div class="col-md-6">
+                            <div class="product-details">
+                                <h1 class="product-title">@Model.Name</h1><!-- End .product-title -->
+
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: @(Model.Rate * 10)%;"></div><!-- End .ratings-val -->
+                                    </div><!-- End .ratings -->
+                                    <a class="ratings-text" href="#product-review-link" id="review-link">( @Model.Comments.Count Reviews )</a>
+                                </div><!-- End .rating-container -->
+
+                                <div class="product-price">
+                                    $@Model.Price
+                                </div><!-- End .product-price -->
+
+                                <div class="product-content">
+                                    <p>A Book By @Model.Author.Name </p>
+                                </div><!-- End .product-content -->
+
+                                <div class="product-details-quantity">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="@Model.Quantity" step="1" data-decimals="0" required>
+                                </div>
+
+                                <div class="product-details-action">
+                                    <button type="submit"   class="btn-product btn-cart">Add To Cart</button>
+                                    @* <a href="javascript:" onclick="addToCart(@Model.ID)" class="btn-product btn-cart"><span>add to cart</span></a> *@
+
+ 
+
+                                    <button class="btn-product btn-cart"> <a href="@Url.Action("OrderSummary", "Order", new { id = Model.ID })">Go Basket</a> </button>
+
+                                    <div class="details-action-wrapper">
+                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                    </div><!-- End .details-action-wrapper -->
+                                </div><!-- End .product-details-action -->
+
+                                <div class="product-details-footer">
+                                    <div class="product-cat">
+                                        <span>Category:</span>
+                                        <a href="/Home/Category/@Model.categoryID">@Model.Category.Name</a>
+                                    </div><!-- End .product-cat -->
+
+                                    <div class="social-icons social-icons-sm">
+                                        <span class="social-label">Share:</span>
+                                        <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                        <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                        <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                        <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                    </div>
+                                </div><!-- End .product-details-footer -->
+                            </div><!-- End .product-details -->
+                        </div><!-- End .col-md-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .product-details-top -->
+            </form>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                <div class="alert alert-success" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+
+
+
+
+
+
+
+
+
+

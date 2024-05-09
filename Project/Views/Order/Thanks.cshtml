@@ -1,0 +1,18 @@
+﻿
+<div class="jumbotron text-center" style="margin-top:40px; background-color:#ffffff;">
+    <h3 style="color: peru; font-size: 50px; text-align: center; margin-top:25px;">Order Confirmed Successfully</h3>
+
+    <h1 style="font-size:60px;" >Thank You!</h1>
+    <p class="lead"><strong>Please check your email</strong> for your order Details</p>
+ 
+    <p>Having trouble? <a href="/Contact">Contact us</a></p>
+    <p class="lead"><a class="btn btn-primary btn-sm" href="/home" role="button">Continue to homepage</a></p>
+    <h1 style="color: peru; font-size: 30px; text-align: center; margin-top:30px;">You will Receive your order on </h1>
+
+    <!-- Display the delivery date -->
+    <h5 style="color: peru; font-size: 30px; text-align: center; margin-top:30px;">@Model.Date.ToString("dddd, MMMM dd, yyyy")</h5>
+    <p class="lead"><strong>Please check your email</strong> for more  Details</p>
+</div>
+    <script>
+        localStorage.setItem("cart", "");
+    </script>

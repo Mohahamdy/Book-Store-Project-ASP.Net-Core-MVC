@@ -1,0 +1,22 @@
+﻿@model ApplicationUser
+
+@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Delete Admin</h6>
+        <p>Are you sure you want to delete the following admin?</p>
+        <ul class="list-unstyled">
+            @* <li><strong>Id:</strong> @Model.Id</li> *@
+            <li><strong>First Name:</strong> @Model.FirstName</li>
+            <li><strong>Last Name:</strong> @Model.LastName</li>
+            <li><strong>Email:</strong> @Model.Email</li>
+        </ul>
+        <form method="post" action="@Url.Action("ConfirmDeleteAdmin", "Admin", new { id = Model.Id })">
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            <a href="@Url.Action("GetAll", "Admin")" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

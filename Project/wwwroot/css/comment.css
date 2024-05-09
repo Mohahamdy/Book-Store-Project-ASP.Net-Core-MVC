@@ -1,0 +1,68 @@
+﻿@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+        background-color: #cc9966cf;
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        background-color: #cc996600;
+    }
+}
+
+.animateReview {
+    animation: fadeIn 0.5s ease-in-out;
+    border-radius: 5px;
+}
+
+/**************************************************************************/
+
+.addReviewDiv {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reviewsCont {
+    display: flex;
+}
+
+.btnComment {
+    width: fit-content;
+}
+
+.formComments {
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.txtComment {
+    display: block;
+    width: 94%;
+}
+
+.rateComment {
+    width: 94%;
+    justify-content: space-between;
+    display: flex;
+    margin-top: 16px;
+    align-items: baseline;
+}
+
+/**************************************************************************/
+
+@media (max-width: 767px) {
+    .reviews {
+        border-bottom: 2px solid #cc9966;
+    }
+}
+@media (min-width: 768px) {
+    .reviews {
+        border-right: 2px solid #cc9966;
+    }
+}

@@ -1,0 +1,77 @@
+﻿@model List<CommentVM>
+@{
+    ViewData["Title"] = "BookComments";
+    Layout = "~/Views/Shared/_NewDashLayout.cshtml";
+}
+
+
+<title>Book Comments</title>
+<h3>Reviews of (@ViewBag.BookName)</h3>
+
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Comments</li>
+</ol>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Comments
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>User Name</th>
+                    <th>Date</th>
+                    <th>Rate</th>
+                    <th>Comment</th>
+                    <th>In Public</th>
+                    <th>Hide/Show</th>
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>User ID</th>
+                    <th>User Name</th>
+                    <th>Date</th>
+                    <th>Rate</th>
+                    <th>Comment</th>
+                    <th>In Public</th>
+                    <th>Hide/Show</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.user_id</td>
+                        <td>@item.userFName @item.userLName</td>
+                        <td>@item.Date</td>
+                        <td>@item.rate /10</td>
+                        <td>@item.comment</td>
+                        <td id="isAvail_@item.user_id@item.book_id">@item.IsAvailable</td>
+                        <td>
+                            @if (item.IsAvailable == true)
+                            {
+                                <i class="fa-solid fa-eye" id="show_@item.user_id@item.book_id" hidden onclick="redirectToShowComment(@item.user_id,@item.book_id)" title="Show" style="color:#009CFF"></i> @* if this icon is visible, so the comment is hidden from the public and want to click on it to show comment to the public*@
+                                <i class="fa-regular fa-eye-slash" id="hide_@item.user_id@item.book_id" onclick="redirectToHideComment(@item.user_id,@item.book_id)" title="Hide" style="color:red"></i> @* comment is shown and want to hide it*@
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-eye" id="show_@item.user_id@item.book_id" title="Show" onclick="redirectToShowComment(@item.user_id,@item.book_id)" style="color:#009CFF"></i> @* if this icon is visible, so the comment is hidden from the public and want to click on it to show comment to the public*@
+                                <i class="fa-regular fa-eye-slash" id="hide_@item.user_id@item.book_id" onclick="redirectToHideComment(@item.user_id,@item.book_id)" hidden title="Hide" style="color:red"></i> @* comment is shown and want to hide it*@
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+                <a class="btn btn-outline-primary m-2" href="/newDashboard/Books"> <i class="fa-solid fa-backward"></i> Back To All Books</a>
+
+    </div>
+</div>
+

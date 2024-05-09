@@ -1,0 +1,23 @@
+﻿@model BookDetailsVM
+
+
+@* <partial name="_NavPartialBookDetails" /> *@
+<div class="container">
+    <table class="table table-bordered table-hover">
+        <tr>
+            <td>comment</td>
+            <td>Date</td>
+            <td>User</td>
+
+        </tr>
+        @foreach (var item in Model.Comments)
+        {
+            <tr>
+                <td>@item.comment</td>
+                <td>@item.Date</td>
+                <td>@item.userFName</td>
+                <td>@item.userLName</td>
+            </tr>
+        }
+    </table>
+</div>

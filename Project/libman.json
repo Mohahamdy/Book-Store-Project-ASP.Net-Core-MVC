@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "font-awesome@6.5.1",
+      "destination": "wwwroot/lib/font-awesome/",
+      "files": [
+        "css/all.min.css",
+        "css/all.css",
+        "css/brands.css",
+        "css/brands.min.css",
+        "css/fontawesome.min.css",
+        "css/solid.min.css",
+        "js/all.min.js",
+        "js/fontawesome.min.js"
+      ]
+    },
+    {
+      "library": "sweetalert2@11.10.7",
+      "destination": "wwwroot/lib/sweetalert2/",
+      "files": [
+        "sweetalert2.min.js",
+        "sweetalert2.min.css",
+        "sweetalert2.all.min.js"
+      ]
+    }
+  ]
+}

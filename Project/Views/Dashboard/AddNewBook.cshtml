@@ -1,0 +1,107 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "AddNewBook";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    SelectList AuthorsList = new SelectList(ViewBag.Authors, "ID", "Name");
+    SelectList CategoriesList = new SelectList(ViewBag.Categories, "ID", "Name");
+    SelectList DiscountsList = new SelectList(ViewBag.Discounts, "ID", "Percantage");
+    SelectList AdminsList = new SelectList(ViewBag.Admins, "Id", "FirstName");
+
+    // SelectList deptList = new SelectList(ViewBag.Depts, "Id", "Name");
+}
+
+<h1>New Book</h1>
+
+<hr />
+<form asp-action="SaveNewBook" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="form-group" style="text-align: center;">
+            <div class="input-group">
+                <!-- Hidden file input -->
+                <input type="file" id="imageInput" name="imageFile" accept="image/*" class="form-control d-none" onchange="previewImage(event)">
+                <!-- Clickable image to trigger file input -->
+                <div class="image-container">
+                    <img src="~/assets/images/books/defaultBook.png" alt="Current Image" id="currentImage" class="img-fluid" onclick="chooseImage(event)">
+                    <div class="overlay">
+                        <span class="text">Change Image</span>
+                    </div>
+                </div>
+            </div>
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Author_id" class="control-label"></label>
+                <select class="myform-control" asp-for="Author_id" asp-items="AuthorsList">
+                    
+                </select>
+                
+                <span asp-validation-for="Author_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category_id" class="control-label"></label>
+                <select class="myform-control" asp-for="Category_id" asp-items="CategoriesList">
+                    
+                </select>
+                <span asp-validation-for="Category_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount_id" class="control-label"></label>
+                <select class="myform-control" asp-for="Discount_id" asp-items="DiscountsList">
+                    <option value="">-- no discount --</option>
+                </select>
+                <span asp-validation-for="Discount_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Admin_id" class="control-label"></label>
+                <select class="myform-control" asp-for="Admin_id" asp-items="AdminsList">
+                    
+                </select>
+                <span asp-validation-for="Admin_id" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAvailable" /> @Html.DisplayNameFor(model => model.IsAvailable) <span>(to be shown)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </div>
+</form>
+
+
+
+<div>
+    <a asp-action="Books">Back to List</a>
+</div>
+

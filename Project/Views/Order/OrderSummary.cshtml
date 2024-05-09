@@ -1,0 +1,110 @@
+﻿@model List<Project.ViewModels.BookDetailsVM>
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <section class="p-4 p-md-5" >
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-5">
+                <div class="card rounded-3">
+                    <div class="card-body p-4" style="border:2px solid initial;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+                        <form action="">
+                            
+
+                            <p class="fw-bold mb-4">Add  card:</p>
+
+                            <div class="form-outline mb-4 row ">
+                                <div class="col-md-8">
+
+                                <label class="form-label" for="formControlLgXsd">Cardholder's Name</label>
+                                <input type="text" id="formControlLgXsd" class="form-control form-control-lg"
+                                       value="Anna Doe" />
+                                </div>
+                            </div>
+
+                                        <label class="form-label" for="formControlLgXM">Card Number</label>
+                            <div class="row mb-4">
+                                <div class="col-md-1">
+                                <img class="img-fluid"  src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
+
+                                </div>
+                                <div class="col-md-7">
+                                    
+                                     
+                                        <input type="text" id="formControlLgXM" class="form-control form-control-lg"
+                                               value="1234 5678 1234 5678" />
+                                    
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                            <div class="col-4">
+                                <div class="form-outline">
+                                    <label class="form-label" for="formControlLgExpk">Expire</label>
+                                    <input type="password" id="formControlLgExpk" class="form-control form-control-lg"
+                                           placeholder="MM/YYYY" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-outline">
+                                    <label class="form-label" for="formControlLgcvv">Cvv</label>
+                                    <input type="password" id="formControlLgcvv" class="form-control form-control-lg"
+                                           placeholder="Cvv" />
+                                </div>
+                            </div>
+                            </div>
+                            <button onclick="AddCard()" class="btn btn-success btn-lg btn-block">Add card</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Button to confirm order -->
+    <div style="text-align: center;">
+        <form asp-controller="Order" asp-action="ConfirmOrder" method="post">
+            <button type="submit" class="btn btn-primary mt-4">Skip</button>
+        </form>
+    </div>
+ 
+ @*    <div style="margin: auto; margin-top:50px;
+  
+  border: 3px solid inherit;
+  padding: 30px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); ">
+
+        <h1 style="color:red;">No order  available yet .</h1>
+
+
+    </div>
+  *@
+
+    <script>
+        function AddCard() {
+        toster();
+        toastr.success("Card Added Successfully !");
+
+        }
+
+        addEventListener("submit",function(){
+        localStorage.setItem("cart", "");
+
+        })
+
+    function toster() {
+        toastr.options = {
+            "closeButton": true,
+            "newestOnTop": false,
+            "progressBar": true,
+            "preventDuplicates": false,
+            "onclick": null,
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+        }
+    }
+    </script>

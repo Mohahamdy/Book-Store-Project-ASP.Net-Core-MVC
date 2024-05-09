@@ -1,0 +1,49 @@
+﻿@model List<Category>
+@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+
+
+<a class="btn btn-primary addBook" href="/Dashboard/AddNewCategory"> <i class="fa-duotone fa-books-medical"></i> Add New Category</a>
+
+
+<h3>Categories</h3>
+
+<div>
+    <table id="myTable" class="display commentsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>IsAvailable</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.IsAvailable</td>
+                    <td>
+                        <i class="fa-solid fa-pen-to-square" title="Edit" onclick="redirectToEditCategory(@item.ID)" style="color:#009CFF"></i>
+                        @if (item.IsAvailable == true)
+                        {
+                            <i class="fa-solid fa-trash" id="delete_@item.ID" title="Delete" onclick="redirectToDeleteCategory(@item.ID)" style="color:red"></i>   @*handle in modals.js*@
+                            <i class="fa-solid fa-plus" hidden id="add_@item.ID" title="Add" onclick="redirectToAddCategory(@item.ID)" style="color:green;margin-right: 4px;"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-trash" hidden id="delete_@item.ID" title="Delete" onclick="redirectToDeleteCategory(@item.ID)" style="color:red"></i>
+                            <i class="fa-solid fa-plus" id="add_@item.ID" title="Add" onclick="redirectToAddCategory(@item.ID)" style="color:green"></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

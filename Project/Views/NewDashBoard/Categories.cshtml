@@ -1,0 +1,77 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Categories";
+    Layout = "~/Views/Shared/_NewDashLayout.cshtml";
+}
+
+ 
+
+
+<link href="~/css/newdash/tables/Tables.css" rel="stylesheet" />
+
+
+
+<title>Categories</title>
+
+
+
+<ol class="breadcrumb  mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Categories</li>
+</ol>
+
+<a class="btn btn-primary addBook" href="/newDashboard/AddNewCategory"> <i class="fa-solid fa-book-medical"></i> Add New Category</a>
+<div class="card mt-2 mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Categories
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>IsAvailable</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td> <span id="isAvail_@item.ID">@item.IsAvailable</span> </td>
+                        <td>
+                            <i class="fa-solid fa-pen-to-square" title="Edit" onclick="redirectToEditCategory(@item.ID)" style="color:#009CFF"></i>
+                            @if (item.IsAvailable == true)
+                            {
+                                <i class="fa-solid fa-trash" id="delete_@item.ID" title="Delete" onclick="redirectToDeleteCategory(@item.ID)" style="color:red"></i>   @*handle in modals.js*@
+                                <i class="fa-solid fa-plus" hidden id="add_@item.ID" title="Add" onclick="redirectToAddCategory(@item.ID)" style="color:green;margin-right: 4px;"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-trash" hidden id="delete_@item.ID" title="Delete" onclick="redirectToDeleteCategory(@item.ID)" style="color:red"></i>
+                                <i class="fa-solid fa-plus" id="add_@item.ID" title="Add" onclick="redirectToAddCategory(@item.ID)" style="color:green"></i>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+       
+    </div>
+</div>
+
+

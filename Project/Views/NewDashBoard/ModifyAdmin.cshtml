@@ -1,0 +1,92 @@
+﻿@{ ViewData["Title"] = "ModifyAdmin"; Layout =
+"~/Views/Shared/_NewDashLayout.cshtml"; }
+<link href="~/css/newdash/tables/Tables.css" rel="stylesheet" />
+
+<title>Modify Admin</title>
+
+@model List<KeyValuePair<int, string
+  >>
+
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Modify Admins</li>
+  </ol>
+  <div class="container-fluid">
+    <div class="row justify-content-center align-items-center g-2">
+      <div class="col-md-3"></div>
+      <div class="col-md-5">
+        <form
+          asp-action="ModifyAdmin"
+          asp-controller="NewDashboard"
+          method="post"
+        >
+          <div class="form-group">
+            <label for="exampleInputEmail1">Users</label>
+            <select
+              class="form-control"
+              name="UserID"
+              onchange="AddOrRemoveAdmin()"
+            >
+              <option value="0" selected hidden disabled>
+                -----Select User------
+              </option>
+              @foreach (var item in Model) {
+              <option value="@item.Key">@item.Value</option>
+
+              }
+            </select>
+          </div>
+
+          <button
+            id="Add"
+            name="isAdmin"
+            value="false"
+            disabled
+            class="btn mt-3 btn-primary"
+          >
+            Add Admin
+          </button>
+          <button
+            id="Remove"
+            name="isAdmin"
+            value="true"
+            disabled
+            class="btn mt-3 btn-danger"
+          >
+            Remove Admin
+          </button>
+        </form>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+
+  ﻿
+  <script src="~/lib/jquery/dist/jquery.js"></script>
+
+  <script>
+    function AddOrRemoveAdmin() {
+      var UserID = $('[name="UserID"]').val();
+      $.ajax({
+        type: "Post",
+        dataType: "JSON",
+        url: "/NewDashBoard/CheckAdminRole?UserID=" + UserID,
+        success: function (response) {
+          console.log(response);
+          if (response.isAdmin) {
+            $("#Remove").prop("disabled", false);
+
+            $("#Add").prop("disabled", true);
+          } else {
+            // $('#Add').click();
+            $("#Add").prop("disabled", false);
+            $("#Remove").prop("disabled", true);
+          }
+        },
+        error: function (response) {
+          alert("Error: " + response);
+        },
+      });
+    }
+  </script></KeyValuePair<int,
+>

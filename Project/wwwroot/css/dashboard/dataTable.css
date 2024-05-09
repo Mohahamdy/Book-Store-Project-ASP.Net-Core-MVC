@@ -1,0 +1,56 @@
+﻿
+
+.mainBlock {
+    padding: 45px;
+}
+
+.addBook{
+    margin-bottom:50px;
+}
+
+#myTable {
+    border: 1px solid black;
+    table-layout: fixed;
+    width: 100%;
+}
+.dataTables_filter{
+    margin-bottom:15px;
+}
+
+.allBooks td {
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Prevent text wrapping within cells */
+    overflow: hidden; /* Hide overflowing content */
+    max-width: 0; /* Ensure ellipsis works */
+    overflow: hidden; /* Hide overflow text */
+}
+
+
+.allBooks td:last-child {
+    text-overflow: clip;
+}
+
+td {
+    text-align: center;
+
+}
+tr:first-child { /* Target the first row (header) */
+    table-layout: auto;
+}
+th {
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+th:hover {
+    text-overflow: inherit; /* Inherit default behavior on hover */
+}
+
+i{
+    cursor:pointer;
+}
+
+
+

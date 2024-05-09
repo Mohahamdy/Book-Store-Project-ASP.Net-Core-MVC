@@ -1,0 +1,95 @@
+﻿@model Project.ViewModels.UserDetails
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link href="~/css/profile/personalinfo.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-xl-4">
+        <!-- Profile picture card-->
+        
+        <div class="card mb-4 mb-xl-0 ">
+            <div class="card-header">Profile Picture</div>
+            <div class="img-card">
+                <form asp-action="EditImage" enctype="multipart/form-data" method="post">
+
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                       
+
+                       
+                        
+                           <img class="prof-img  mb-2 ml-3" src="~/images/users/@Model.image" alt="">
+                           <input type="hidden" value="@Model.image" name="oldImage"/>
+                            <input class="form-control" type="file" name="Image" id="Image">
+                 
+                       
+                        <span asp-validation-for="image"></span>
+
+                        <!-- Profile picture help block-->
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <!-- Profile picture upload button-->
+                        <button class="btn btn-primary" type="submit">Upload new image</button>
+                    </div>
+                </form>
+               
+            </div>
+          
+        </div>
+    </div>
+    <div class="col-xl-8">
+        <!-- Account details card-->
+        <div class="card mb-4">
+            <div class="card-header">Account Details</div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <!-- Form Group (username)-->
+                  
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (first name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputFirstName">First name</label>
+                            @* <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie"> *@
+                            <input class="form-control" asp-for="FirstName" value="@Model.FirstName" />
+                            <span asp-validation-for="FirstName"></span>
+                        </div>
+                        <!-- Form Group (last name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputLastName">Last name</label>
+                            <input class="form-control" asp-for="LastName" value="@Model.LastName" />
+                            <span asp-validation-for="LastName"></span>
+                            @* <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" value="Luna"> *@
+                        </div>
+                    </div>
+                    
+                    <!-- Form Row        -->
+                    <div class="row gx-3 mb-3">
+                       
+                        <!-- Form Group (location)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputLocation">Address</label>
+                            <input class="form-control" asp-for="Address" value="@Model.Address" />
+                            <span asp-validation-for="Address"></span>
+                            @* <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="San Francisco, CA"> *@
+                        </div>
+                    </div>
+                 
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-2">
+                        <!-- Form Group (phone number)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputPhone">Phone number</label>
+                            <input class="form-control" asp-for="PhoneNumber" value="@Model.PhoneNumber" />
+                            <span asp-validation-for="PhoneNumber"></span>
+                            @* <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567"> *@
+                        </div>
+                     
+                    </div>
+                    <!-- Save changes button-->
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 

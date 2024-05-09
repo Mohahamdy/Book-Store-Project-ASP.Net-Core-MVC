@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Admins</h6>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">Id</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var admin in Model)
+                    {
+                        <tr>
+                            <td>@admin.Id</td>
+                            <td>@admin.FirstName</td>
+                            <td>@admin.LastName</td>
+                            <td>@admin.Email</td>
+                            <td><a href="@Url.Action("EditAdmin", "Admin", new { id = admin.Id })" class="btn btn-primary">Update</a></td>
+                            <td><a href="@Url.Action("DeleteAdmin", "Admin", new { id = admin.Id })" class="btn btn-danger">Delete</a></td>
+
+
+                            <!-- Add more columns as needed -->
+                        </tr>
+                    }
+                </tbody>
+                <td><a href="@Url.Action("AddAdmin", "Dashboard")" class="btn btn-danger">Add New Admin</a></td>
+
+            </table>
+
+        </div>
+    </div>
+</div>

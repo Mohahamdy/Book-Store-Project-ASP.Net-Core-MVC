@@ -1,0 +1,129 @@
+﻿
+@{
+    Layout = null;
+    var imageClaim = User.Claims.FirstOrDefault(c => c.Type == "image");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>BookPulse Dashboard</title>
+    <link href="~/assets/images/logo.png" rel="icon">
+    @* <link rel="stylesheet" href="style.css"> *@
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/brands.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/brands.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/solid.min.css" rel="stylesheet" />
+    <link href="~/css/newdash/tables/Tables.css" rel="stylesheet" />
+
+    <link href="~/css/newdash/style.css" rel="stylesheet" />
+    <link href="~/css/dashboard/modal.css" rel="stylesheet">
+    <link href="~/css/dashboard/Comments.css" rel="stylesheet">
+    <link href="~/css/dashboard/form.css" rel="stylesheet">
+    <link href="~/assets/css/toastr.min.css" rel="stylesheet" />
+   
+  
+    
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="~/home" class="logo">
+            @* <i class='bx bx-code-alt'></i> *@
+            <i class='bx bxs-book-reader'></i>
+            <div class="logo-name"><span>Book</span>Pulse</div>
+        </a>
+        <ul class="side-menu">
+            <li ><a href="~/newDashboard/index"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+          @*   <li><a href="#"><i class='bx bx-store-alt'></i>Shop</a></li>
+            <li><a href="#"><i class='bx bx-analyse'></i>Analytics</a></li>
+            <li><a href="#"><i class='bx bx-message-square-dots'></i>Tickets</a></li> *@
+            <li><a href="~/NewDashBoard/GetAllAdmins"><i class="bx fa-solid fa-user-tie"></i></i>Admins</a></li>
+            <li><a href="~/NewDashBoard/GetAllUsers"><i class='bx bx-group'></i>Users</a></li>
+            <li><a href="~/NewDashBoard/Books"><i class='bx bxs-book'></i>Books</a></li>
+            <li><a href="~/NewDashBoard/GetAllAuthors"><i class='bx bxs-pen'></i></i>Authors</a></li>
+            <li><a href="~/NewDashBoard/Categories"><i class='bx bxs-layer'></i>Categorires</a></li>
+            @* <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li> *@
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="~/Account/Logout" class="logout">
+                    <i class='bx bx-log-out-circle'></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End of Sidebar -->
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+          @*   <a href="#" class="notif">
+                <i class='bx bx-bell'></i>
+                <span class="count">12</span>
+            </a> *@
+            @if (imageClaim != null)
+            {
+
+                 
+                <a href="#" class="profile">
+                    <img src="~/Images/users/@imageClaim.Value"/>
+                </a>
+            }
+            else
+            {
+                <a href="#" class="profile">
+                    <img src="~/images/NewDash/logo.png"/>
+                </a>
+
+            }
+           
+        </nav>
+
+        <!-- End of Navbar -->
+        <main>
+            
+        @RenderBody()
+        </main>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/newdash/tables/scripts.js"></script>
+    <script src="~/js/NewDash/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/newdash/tables/datatables-simple-demo.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
+    <script src="~/lib/font-awesome/js/fontawesome.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/assets/js/toastr.min.js"></script>
+
+    <script src="~/js/newdash/modals.js"></script>
+
+    <script src="~/js/dashboard/formImage.js"></script>
+    <script src="~/js/dashboard/Comments.js"></script>
+   
+</body>
+﻿
+
+</html>

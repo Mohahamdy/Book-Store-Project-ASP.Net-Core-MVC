@@ -1,0 +1,82 @@
+﻿@model List<Author>
+
+@{
+    ViewData["Title"] = "GetAllAuthors";
+    Layout = "~/Views/Shared/_NewDashLayout.cshtml";
+}
+
+<link href="~/css/newdash/tables/Tables.css" rel="stylesheet" />
+
+<title>Authors</title>
+
+
+
+<ol class="breadcrumb  mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Authors</li>
+</ol>
+
+<a class="btn btn-primary addBook" href="/newDashboard/AddAuthor"> <i class="fa-solid fa-book-medical"></i>Add Author</a>
+<div class="card mt-2 mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Authors
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Name</td>
+                        <td>
+                            <i class="fa-solid fa-pen-to-square mr-1" title="Edit" onclick="redirectToEditAuthor(@item.ID)" style="color:#009CFF"></i>
+                            <i class="fa-solid fa-trash" id="delete_@item.ID" title="Delete" onclick="redirectToDeleteAuthor(@item.ID,`@item.Name`)" style="color:red"></i>   
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    function redirectToEditAuthor(id) {
+        window.location.href = `/NewDashBoard/editauthor/${id}`;
+    }
+
+    function redirectToDeleteAuthor(id, name) {
+        Swal.fire({
+            title: "Do you want to delete this Author?",
+            icon: "info",
+            html: `
+                              <div class="card" style="-webkit-border-radius:5px;text-align:center;box-shadow:5px 5px #888888" >
+                            <div class="card-body">
+                                <h5 class="card-title">ID: ${id}</h5>
+                                    <h5 class="card-title">Name: ${name}</h5>
+                                
+                </div>
+            </div>
+          `,
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Delete",
+            denyButtonText: `Cancel`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = `/NewDashBoard/deleteauthor/${id}`;
+            }
+        });
+    }
+
+</script> 

@@ -1,0 +1,36 @@
+﻿@model Author
+
+@{
+    ViewData["Title"] = "EditAuthor";
+    Layout = "~/Views/Shared/_NewDashLayout.cshtml";
+}
+
+<ol class="breadcrumb mt-2 mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">EditAuthor</li>
+</ol>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditAuthor">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetAllAuthors">Back to List</a>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

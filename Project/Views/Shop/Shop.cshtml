@@ -1,0 +1,370 @@
+﻿@model CategoriesAndAuthorsVM
+
+
+@* products need to eidt with details and click on category to get all products in this category and add to wishlist and add to cart *@
+
+<div class="page-wrapper">
+
+
+
+    <main class="main">
+
+        <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    <li class="breadcrumb-item active"><a asp-action="Index" asp-controller="Shop">Shop</a></li>
+
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 parent">
+                        <div class="toolbox">
+                            <div class="toolbox-left">
+                                <div class="toolbox-info">
+                                    Showing <span>Page @Model.pageNumber of @Model.totalPages</span> Products
+                                </div><!-- End .toolbox-info -->
+                            </div><!-- End .toolbox-left -->
+
+                            <div class="toolbox-right">
+                                <div class="toolbox-sort">
+                                    <label for="sortby">Sort by:</label>
+                                    <div class="select-custom">
+                                        <select name="sortby" id="sortby" class="form-control">
+                                            <option value="" disabled selected hidden>Default</option>
+                                            <option value="asc">Price ASC</option>
+                                            <option value="dec">Price Dec</option>
+                                        </select>
+                                    </div>
+                                </div><!-- End .toolbox-sort -->
+
+                            </div><!-- End .toolbox-right -->
+                        </div><!-- End .toolbox -->
+
+                        <div class="products mb-3">
+                     
+                            <div class="row justify-content-center ">
+
+                                @foreach (Book item in Model.books)
+
+                                {
+                                    @if (item.IsAvailable)
+                                    {
+                                        <div class="col-sm-8 col-md-3  ">
+                                            <div class="product product-7 text-center">
+                                                @if (item.Quantity > 0)
+                                                {
+
+                                                    <span class="product-label label-sale">Sale</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="product-label label-sale" style="background-color:red;">Out of Stock</span>
+
+
+                                                }
+                                                <figure class="product-media">
+                                                    @* <span class="product-label label-new">New</span> *@
+                                                    <a href="~/BookDetails/@item.ID">
+                                                        <img src="~/images/Shop/@item.Image" style="max-height=450px" alt="Product image"   class="product-image">
+                                                        @* <img src="~/assets/images/books/@item.Image" style="max-height=450px" alt="Product image" class="product-image" /> *@
+
+                                                    </a>
+
+
+                                                    @if (item.Quantity > 0 && !User.IsInRole("Admin") && User.Identity.IsAuthenticated == true)
+
+                                                    {
+
+                                                        <div class="product-action">
+                                                            <a href="javascript:" onclick="addToCart(@item.ID , 'whithout quantity')" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                            @* <a href="#" class="btn-product btn-cart"><span>add to cart</span></a> *@
+                                                        </div>
+
+                                                        <!-- End .product-action -->
+                                                    }
+                                                </figure><!-- End .product-media -->
+
+                                                <div class="product-body">
+                                                    <div class="product-cat">
+                                                        <a asp-action="" asp-controller="Shop">@item.Category.Name</a>
+                                                    </div><!-- End .product-cat -->
+                                                    <h3 class="product-title"><a asp-action="" asp-controller="">@item.Name</a></h3><!-- End .product-title -->
+                                                    <div class="product-price">
+                                                        $ @item.Price.ToString("F2")
+                                                    </div><!-- End .product-price -->
+
+                                                    <div class="ratings-container">
+                                                        <div class="ratings">
+                                                            @if (item.Rate != null)
+                                                            {
+                                                                <div class="ratings-val" style="width: @(item.Rate * 10)%;"></div>
+
+                                                                <!-- End .ratings-val -->
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="ratings-val" style="width: 0%;"></div>
+
+                                                                <!-- End .ratings-val -->
+                                                            }
+                                                        </div><!-- End .ratings -->
+                                                      
+                                                    </div><!-- End .rating-container -->
+
+
+                                                </div><!-- End .product-body -->
+                                            </div><!-- End .product -->
+                                        </div>
+
+                                        <!-- End .col-sm-6 -->
+                                    }
+                                    
+                                }
+
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item @(Model.pageNumber == 1 ? "disabled" : "")">
+                                    <a class="page-link page-link-prev" asp-action="Index" asp-controller="Shop" asp-route-pageNumber=@(Model.pageNumber -1) aria-label="Previous">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>
+                                        Prev
+                                    </a>
+                                </li>
+
+                                @for (int i = 1; i <= Model.totalPages; i++)
+                                {
+                                    <li class="page-item @(Model.pageNumber == i ? "active" : "")">
+                                        @* <a class="page-link" asp-action="Index" asp-controller="Shop" asp-route-pageNumber=@i>@i</a> *@
+                                        <a class="page-link num" href="#" name=@i>@i</a>
+                                    </li>
+                                }
+
+                                <li class="page-item @(Model.pageNumber == Model.totalPages ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-controller="Shop" asp-route-pageNumber=@(Model.pageNumber +1) aria-label="Next">
+                                        Next<span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+
+
+                    </div><!-- End .col-lg-9 -->
+
+                    <aside class="col-lg-3 order-lg-first">
+                        <div class="sidebar sidebar-shop">
+                            <div class="widget widget-clean">
+                                <label>Filters:</label>
+                                <a asp-action="Index" asp-controller="Shop" class="sidebar-filter-clear clean">Clean All</a>
+                            </div><!-- End .widget widget-clean -->
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                                        Category
+                                    </a>
+                                </h3><!-- End .widget-title -->
+
+                                <div class="collapse show" id="widget-1">
+                                    <div class="widget-body">
+                                        <div class="filter-items filter-items-count">
+
+                                            @foreach (Category item in Model.Categories)
+
+                                            {
+
+                                                <div class="filter-item">
+                                                    <div class="custom-control custom-checkbox">
+                                                        @*  <input type="checkbox" class="custom-control-input" id="cat-1">
+                                                    <label class="custom-control-label" for="cat-1">@item.Name</label> *@
+                                                        <input type="checkbox" id="scales" class="category" value="@item.Name" name="@item.Name" />
+                                                        <label for="@item.Name">@item.Name</label>
+                                                    </div><!-- End .custom-checkbox -->
+                                                    <span class="item-count">@item.Books.Count()</span>
+                                                </div>
+
+                                                <!-- End .filter-item -->
+                                            }
+
+                                        </div><!-- End .filter-items -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
+
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
+                                        Author
+                                    </a>
+                                </h3><!-- End .widget-title -->
+
+                                <div class="collapse show" id="widget-4">
+                                    <div class="widget-body">
+                                        <div class="filter-items">
+
+                                            @foreach (Author item in Model.Authors)
+                                            {
+                                                <div class="filter-item">
+                                                    <div class="custom-control custom-checkbox">
+                                                        @*   <input type="checkbox" class="custom-control-input" id="brand-1">
+                                                    <label class="custom-control-label" for="brand-1">@item.Name</label> *@
+
+                                                        <input id="@item.Name" type="checkbox" class="author" value="@item.Name" name="@item.Name" />
+                                                        <label name="@item.Name">@item.Name</label>
+                                                    </div><!-- End .custom-checkbox -->
+                                                </div>
+
+                                                <!-- End .filter-item -->
+                                            }
+
+                                        </div><!-- End .filter-items -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
+                                        Price
+                                    </a>
+                                </h3><!-- End .widget-title -->
+
+                                <div class="collapse show" id="widget-5">
+                                    <div class="widget-body">
+                                        <div class="filter-price">
+                                            <div class="filter-price-text">
+                                                Price Range:
+                                                <span id="filter-price-range"></span>
+                                            </div><!-- End .filter-price-text -->
+
+                                            <div id="price-slider"></div><!-- End #price-slider -->
+                                        </div><!-- End .filter-price -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                                <button type="button" class="btn mt-5 btn-white w-100 border border-secondary" id="applay">Apply</button>
+
+                            </div><!-- End .widget -->
+                        </div><!-- End .sidebar sidebar-shop -->
+                    </aside><!-- End .col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<style>
+
+    .products > .row > [class*=col-] {
+        height: 475px;
+    }
+
+    .product-image {
+        display: block;
+        width: 100%;
+        height: 330px;
+    }
+</style>
+
+@*  <partial name="_ValidationScriptsPartial" /> *@
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        function filterProducts(pageNumber = 1) {
+            var sort = $('#sortby').val(); // Get the selected value
+            $('.parent').empty();
+
+            var categories = [];
+            var authors = [];
+            var miniPrice = parseInt(($('.noUi-handle-lower').attr('aria-valuetext')).replace(/\$/g, ""));
+            var maxPrice = parseInt(($('.noUi-handle-upper').attr('aria-valuetext')).replace(/\$/g, ""));
+
+            $('input[class="category"]:checked').each(function () {
+                categories.push($(this).val());
+            });
+
+            $('input[class="author"]:checked').each(function () {
+                authors.push($(this).val());
+            });
+
+
+            // Send data to server via AJAX
+            $.ajax({
+                url: '@Url.Action("CardsBooks", "Shop")',
+                type: 'POST',
+                data: {
+                    categories: categories,
+                    authors: authors,
+                    miniPrice: miniPrice,
+                    maxPrice: maxPrice,
+                    page: pageNumber,
+                    sort: sort
+                },
+                success: function (data) {
+                    console.log("yes");
+                    $('.parent').html(data);
+                },
+                error: function () {
+                    // Handle error
+                    console.log("error");
+                }
+            });
+
+        }
+
+        $('#applay').click(function () {
+            filterProducts()
+        });
+
+        $(document).on('click', '.category', function () { filterProducts() });
+        $(document).on('click', '.author', function () { filterProducts() });
+
+
+
+
+        $(document).on('change', '#sortby', function () { filterProducts() });
+        $(document).on('click', '.num', function (event) {
+            event.preventDefault();
+            var pageNumber = parseInt($(this).attr('name'));
+            filterProducts(pageNumber);
+        });
+
+        $('.clean').click(function () {
+
+            // Send data to server via AJAX
+            $.ajax({
+                url: '@Url.Action("CardsBooks", "Shop")',
+                type: 'POST',
+                data: {
+                },
+                success: function (data) {
+                    console.log("yes");
+                    $('.parent').html(data);
+                },
+                error: function () {
+                    // Handle error
+                    console.log("error");
+                }
+            });
+
+
+        })
+    });
+</script>
+
+
+

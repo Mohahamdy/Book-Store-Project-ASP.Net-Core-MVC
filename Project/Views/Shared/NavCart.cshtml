@@ -1,0 +1,118 @@
+﻿@* For more information on enabling MVC for empty projects, visit
+http://go.microsoft.com/fwlink/?LinkID=397860 *@
+<div class="dropdown cart-dropdown">
+  <a
+    href="#"
+    class="dropdown-toggle"
+    role="button"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+    data-display="static"
+  >
+    <i class="icon-shopping-cart"></i>
+    <span class="cart-count items_count"></span>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-right">
+    <div class="dropdown-cart-products"></div>
+    <!-- End .cart-product -->
+
+    <div class="dropdown-cart-total">
+      <span>Total</span>
+
+      <span class="cart-total-price">$</span>
+    </div>
+    <!-- End .dropdown-cart-total -->
+
+    <div class="dropdown-cart-action">
+      <a href="/cart" class="btn btn-primary">View Cart</a>
+      <a href="checkout.html" class="btn btn-outline-primary-2"
+        ><span>Checkout</span><i class="icon-long-arrow-right"></i
+      ></a>
+    </div>
+    <!-- End .dropdown-cart-total -->
+  </div>
+  <!-- End .dropdown-menu -->
+</div>
+<partial name="_validationscriptspartial.cshtml" />
+<script>
+  var cart = document.getElementsByClassName("dropdown-cart-products");
+  var cart_total_price = document.getElementsByClassName("cart-total-price");
+    var cart_count = document.getElementsByClassName("items_count");
+  let total_price = 0;
+     
+
+  function DeleteORder(id) {
+    event.preventDefault();
+    $.ajax({
+      url: `https://localhost:44335/order/DeleteOrder/${id}`,
+      type: "POST",
+      contentType: "application/json",
+      success: function (response) {
+        console.log("Response from server:", response);
+        updateCart();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+  function updateCart() {
+    $.ajax({
+      url: "/home/CartBookDetails",
+      type: "GET",
+      contentType: "application/json",
+
+      success: function (response) {
+           cart_count[0].innerHTML = response.length;
+           
+        console.log("Response from server:", response);
+          if (response.length > 0) {
+                    total_price = 0;
+                    response.forEach(
+                        (element) => (total_price += element.price * element.quantity)
+                    );
+          } else {
+              total_price = 0;
+          }
+     
+        cart[0].innerHTML = "";
+        response.forEach((element) => {
+          cart[0].innerHTML += `
+                <div class="product">
+                    <div class="product-cart-details">
+                        <h4 class="product-title">
+                            <a href="product.html">${element.name}</a>
+                        </h4>
+                        <span class="cart-product-info">
+                            <span class="cart-product-qty">Quantity: ${element.quantity}</span>
+                            x $${element.price}
+                        </span>
+                    </div><!-- End .product-cart-details -->
+
+                        <figure class="product-image-container" style="height: 100px;">
+                        <a href="product.html" class="product-image">
+                         <img src="https://localhost:44335/assets/images/books/${element.image}" alt="${element.name}">
+                            </a>
+                    </figure>
+
+                        <input type="hidden" name="book_id" value="${element.id}" />
+                            <button   class="btn-remove" title="Remove Product" onclick="DeleteORder(${element.id})">
+                            <i class="icon-close"></i>
+                        </button>
+
+                </div>
+            `;
+        });
+       
+
+        cart_total_price[0].innerHTML = `  ${total_price} $`;
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+  updateCart();
+</script>

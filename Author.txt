@@ -1,0 +1,68 @@
+        #region Author
+
+        [HttpGet]
+        public IActionResult GetAllAuthors()
+        {
+            List<Author> authors = authorRepository.GetAll();
+            return View(authors);
+        }
+
+        [HttpGet]
+        public IActionResult AddAuthor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddAuthor(Author author)
+        {
+            if (ModelState.IsValid == true)
+            {
+                authorRepository.Add(author);
+                authorRepository.Save();
+
+                return RedirectToAction("GetAllAuthors");
+            }
+
+            return View(author);
+        }
+
+        [HttpGet]
+        public IActionResult EditAuthor(int id)
+        {
+            Author author = authorRepository.GetById(id);
+            return View(author);
+        }
+
+        [HttpPost]
+        public IActionResult EditAuthor(Author author)
+        {
+            if(ModelState.IsValid)
+            {
+                authorRepository.Update(author);
+                authorRepository.Save();
+
+                return RedirectToAction("GetAllAuthors");
+            }
+
+            return View(author);
+        }
+
+        [HttpGet] 
+        public IActionResult DeleteAuthor(int id)
+        {
+            try
+            {
+                authorRepository.DeleteByID(id);
+                authorRepository.Save();
+
+                return RedirectToAction("GetAllAuthors");
+            }
+            catch (Exception ex)
+            {
+                return Content("Can not Delte this author because he has books");
+            }
+           
+        }
+
+        #endregion

@@ -1,0 +1,41 @@
+﻿@* @model List<Project.ViewModels.BookDetailsVM>
+
+@if (Model != null && Model.Any())
+{
+    <h1>Order Summary</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Book Price</th>
+                <th>Book Quantity</th>
+
+                <!-- Add other headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Image</td>
+                    <td>@item.Name</td>
+                    <td>@item.Author</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <!-- Add other cells as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>Total Price: @Model.Sum(item => item.Price)</p>
+    <form asp-controller="Order" asp-action="ConfirmOrder" method="post">
+        <button type="submit">Confirm Order</button>
+    </form>
+}
+else
+{
+    <p>No order details available.</p>
+}
+ *@

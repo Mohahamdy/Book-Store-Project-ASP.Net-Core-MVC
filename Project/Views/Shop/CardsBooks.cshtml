@@ -1,0 +1,159 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model ListBooksAndNavigationVm
+<div class="toolbox">
+    <div class="toolbox-left">
+        <div class="toolbox-info">
+            Showing <span>Page @Model.pageNumber of @Model.totalPages</span> Products
+        </div><!-- End .toolbox-info -->
+    </div><!-- End .toolbox-left -->
+    <div class="toolbox-right">
+        <div class="toolbox-sort">
+            <label for="sortby">Sort by:</label>
+            <div class="select-custom">
+                <select name="sortby" id="sortby" class="form-control">
+                    <option value="" selected disabled hidden>Default</option>
+
+                    @if (Model.sort == "asc")
+                    {
+                        <option value="asc" selected>Price Asc</option>
+                        <option value="dec">Price Dsc</option>
+                    }
+                    else if (Model.sort == "dec")
+
+                    {
+                        <option value="asc">Price Asc</option>
+                        <option value="dec" selected>Price Dsc</option>
+                    }
+                    else
+
+                    {
+                        <option value="asc">Price Asc</option>
+                        <option value="dec">Price Dsc</option>
+                    }
+                </select>
+            </div>
+        </div><!-- End .toolbox-sort -->
+    </div><!-- End .toolbox-right -->
+</div><!-- End .toolbox -->
+<div class="products mb-3">
+    <div class="row justify-content-center ">
+        @foreach (Book item in Model.books)
+
+        {
+            @if (item.IsAvailable)
+            { 
+            <div class="col-sm-8 col-md-3 mt-3" style="height:520px;">
+                <div class="product product-7 text-center">
+                        @if (item.Quantity > 0)
+                        {
+
+                            <span class="product-label label-sale">Sale</span>
+                        }
+                        else
+                        {
+                            <span class="product-label label-sale" style="background-color:red;">Out of Stock</span>
+
+
+                        }
+                    <figure class="product-media">
+
+                            <a href="~/Home/BookDetails/@item.ID">
+                            <img src="~/images/shop/@item.Image" style="max-height=450px" alt="Product image" class="product-image" />
+                            @* <img src="~/images/Shop/@item.Image" style="max-height=450px" alt="Product image" class="product-image"> *@
+                        </a>
+
+
+                            @if (item.Quantity > 0 && !User.IsInRole("Admin") && User.Identity.IsAuthenticated == true)
+                            {
+
+                                <div class="product-action">
+                                    <a href="javascript:" onclick="addToCart(@item.ID , 'whithout quantity')" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    @* <a href="#" class="btn-product btn-cart"><span>add to cart</span></a> *@
+                                </div>
+
+                                <!-- End .product-action -->
+                            }
+                    </figure><!-- End .product-media -->
+
+                    <div class="product-body">
+                        <div class="product-cat">
+                            <a asp-action="" asp-controller="Shop">@item.Category.Name</a>
+                        </div><!-- End .product-cat -->
+                        <h3 class="product-title"><a asp-action="" asp-controller="">@item.Name</a></h3><!-- End .product-title -->
+                            <div class="product-price">
+                           
+                                    <span class="new-price">$@item.Price.ToString("F2")</span>
+                                
+                            </div><!-- End .product-price -->
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    @if (item.Rate != null)
+                                    {
+                                        <div class="ratings-val" style="width: @(item.Rate * 10)%;"></div>
+
+                                        <!-- End .ratings-val -->
+                                    }
+                                    else
+                                    {
+                                        <div class="ratings-val" style="width: 0%;"></div>
+
+                                        <!-- End .ratings-val -->
+                                    }
+                                </div><!-- End .ratings -->
+
+                            </div><!-- End .rating-container -->
+                       
+                    </div><!-- End .product-body -->
+                </div><!-- End .product -->
+                
+            </div>
+
+            <!-- End .col-sm-6 -->
+        }
+        }
+    </div><!-- End .row -->
+</div><!-- End .products -->
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.pageNumber == 1 ? "disabled" : "")">
+            <a class="page-link page-link-prev num" href="#" name=@(Model.pageNumber -1) aria-label="Previous">
+                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>
+                Prev
+            </a>
+        </li>
+
+        @for (int i = 1; i <= Model.totalPages; i++)
+        {
+            <li class="page-item @(Model.pageNumber == i ? "active" : "")">
+                @* <a class="page-link" asp-action="Index" asp-controller="Shop" asp-route-pageNumber=@i>@i</a> *@
+                <a class="page-link num" href="#" name=@i>@i</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.pageNumber == Model.totalPages ? "disabled" : "")">
+            <a class="page-link num" href="#" name=@(Model.pageNumber +1) aria-label="Next">
+                Next<span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<style>
+
+    .products > .row > [class*=col-] {
+        height: 475px;
+    }
+
+    .product-image {
+        display: block;
+        width: 100%;
+        height: 330px;
+    }
+</style>
